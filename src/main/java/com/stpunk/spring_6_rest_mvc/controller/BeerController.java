@@ -30,7 +30,7 @@ public class BeerController {
         HttpHeaders headers = new HttpHeaders();
 
         headers.add("Location", savedBeer.getId().toString());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedBeer, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
