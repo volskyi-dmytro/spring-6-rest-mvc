@@ -70,7 +70,7 @@ public class BeerController {
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
         log.debug("Getting Beer ID from controller. Another test");
 
-        return beerService.getBeerById(beerId);
+        return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
     }
 
 }
