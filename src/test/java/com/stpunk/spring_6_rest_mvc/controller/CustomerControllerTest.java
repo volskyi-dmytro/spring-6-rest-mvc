@@ -63,7 +63,7 @@ class CustomerControllerTest {
         Map<String, Object> customerMap = new HashMap<>();
         customerMap.put("customerName", "New name");
 
-        mockMvc.perform(patch(CUSTOMER_PATH + "/" + customer.getCustomerId())
+        mockMvc.perform(patch(CUSTOMER_PATH_ID, customer.getCustomerId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMap)))
@@ -80,7 +80,7 @@ class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.getCustomers().get(0);
 
-        mockMvc.perform(delete(CUSTOMER_PATH + "/" + customer.getCustomerId())
+        mockMvc.perform(delete(CUSTOMER_PATH_ID, customer.getCustomerId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -94,7 +94,7 @@ class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.getCustomers().get(0);
 
-        mockMvc.perform(put(CUSTOMER_PATH + "/" + customer.getCustomerId())
+        mockMvc.perform(put(CUSTOMER_PATH_ID, customer.getCustomerId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customer)))
@@ -143,7 +143,7 @@ class CustomerControllerTest {
 
         given(customerService.getCustomerById(testCustomer.getCustomerId())).willReturn(testCustomer);
 
-        mockMvc.perform(get(CUSTOMER_PATH + "/" + testCustomer.getCustomerId())
+        mockMvc.perform(get(CUSTOMER_PATH_ID, testCustomer.getCustomerId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
