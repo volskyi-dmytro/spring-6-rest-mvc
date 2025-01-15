@@ -1,8 +1,7 @@
 package com.stpunk.spring_6_rest_mvc.controller;
 
-import com.stpunk.spring_6_rest_mvc.model.Customer;
+import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
 import com.stpunk.spring_6_rest_mvc.services.CustomerService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,7 @@ public class CustomerController {
 
     @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity patchCustomerById(@PathVariable("customerId") UUID customerId,
-                                            @RequestBody Customer customer) {
+                                            @RequestBody CustomerDTO customer) {
 
         customerService.patchCustomerById(customerId, customer);
 
@@ -41,7 +40,7 @@ public class CustomerController {
 
     @PutMapping(CUSTOMER_PATH_ID)
     public ResponseEntity updateById(@PathVariable("customerId") UUID customerId,
-                                     @RequestBody Customer customer) {
+                                     @RequestBody CustomerDTO customer) {
 
         customerService.updateById(customerId, customer);
 
@@ -49,9 +48,9 @@ public class CustomerController {
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<CustomerDTO> postCustomer(@RequestBody CustomerDTO customer) {
 
-        Customer savedCustomer = customerService.saveNewCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -63,12 +62,12 @@ public class CustomerController {
 
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> getCustomers() {
+    public List<CustomerDTO> getCustomers() {
         return customerService.getCustomers();
     }
 
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable("customerId") UUID id) {
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID id) {
 
         return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
