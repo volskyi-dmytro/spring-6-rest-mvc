@@ -48,7 +48,7 @@ public class CustomerController {
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity<CustomerDTO> postCustomer(@RequestBody CustomerDTO customer) {
+    public ResponseEntity postCustomer(@RequestBody CustomerDTO customer) {
 
         CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
@@ -56,7 +56,7 @@ public class CustomerController {
 
         headers.add("Location", savedCustomer.getCustomerId().toString());
 
-        return new ResponseEntity<>(savedCustomer, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 
     }
 

@@ -48,14 +48,14 @@ public class BeerController {
     }
 
     @PostMapping(BEER_PATH)
-    public ResponseEntity<BeerDTO> handlePost(@RequestBody BeerDTO beer) {
+    public ResponseEntity handlePost(@RequestBody BeerDTO beer) {
 
         BeerDTO savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.add("Location", savedBeer.getId().toString());
-        return new ResponseEntity<>(savedBeer, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @GetMapping(BEER_PATH)
