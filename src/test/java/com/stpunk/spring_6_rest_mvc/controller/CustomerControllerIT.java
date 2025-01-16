@@ -2,6 +2,7 @@ package com.stpunk.spring_6_rest_mvc.controller;
 
 import com.stpunk.spring_6_rest_mvc.entities.Beer;
 import com.stpunk.spring_6_rest_mvc.entities.Customer;
+import com.stpunk.spring_6_rest_mvc.mappers.CustomerMapper;
 import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
 import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
 import com.stpunk.spring_6_rest_mvc.repositories.CustomerRepository;
@@ -27,6 +28,59 @@ class CustomerControllerIT {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Test
+    void testDeleteByIdNotFound() {
+
+        assertThrows(NotFoundException.class, () -> {
+            customerController.deleteById(UUID.randomUUID());
+        });
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void deleteByIdFound() {
+
+        Customer customer = customerRepository.findAll().get(0);
+
+        ResponseEntity responseEntity = customerController.deleteById(customer.getCustomerId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertThat(customerRepository.findById(customer.getCustomerId())).isEmpty();
+
+    }
+
+    @Test
+    void testUpdateNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build());
+        });
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void updateCustomerTest() {
+
+        Customer customer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+        customerDTO.setCustomerId(null);
+        customerDTO.setVersion(null);
+
+        final String customerName = "UPDATED";
+        customerDTO.setCustomerName(customerName);
+
+        ResponseEntity responseEntity = customerController.updateById(customer.getCustomerId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer updatedCustomer = customerRepository.findById(customer.getCustomerId()).get();
+        assertThat(updatedCustomer.getCustomerName()).isEqualTo(customerName);
+
+    }
 
     @Rollback
     @Transactional
