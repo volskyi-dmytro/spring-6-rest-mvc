@@ -28,6 +28,8 @@ class CustomerControllerIT {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Rollback
+    @Transactional
     @Test
     void testSaveNewCustomer() {
 
