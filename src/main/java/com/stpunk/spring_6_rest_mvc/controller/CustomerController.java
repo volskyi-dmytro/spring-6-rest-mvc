@@ -19,8 +19,8 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private static final String CUSTOMER_PATH = "/api/v1/customer";
-    private static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity patchCustomerById(@PathVariable("customerId") UUID customerId,
