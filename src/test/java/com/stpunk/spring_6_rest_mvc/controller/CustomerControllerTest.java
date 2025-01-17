@@ -164,4 +164,19 @@ class CustomerControllerTest {
         mockMvc.perform(get(CUSTOMER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void testCreateCustomerNullCustomerName() throws Exception{
+
+        CustomerDTO customerDTO = CustomerDTO.builder().build();
+
+        given(customerService.saveNewCustomer(any(CustomerDTO.class)))
+                .willReturn(customerServiceImpl.getCustomers().get(1));
+
+        mockMvc.perform(post(CUSTOMER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerDTO)))
+                .andExpect(status().isBadRequest());
+    }
 }
