@@ -3,6 +3,7 @@ package com.stpunk.spring_6_rest_mvc.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -28,7 +29,10 @@ public class Customer {
 
     @NotNull
     @NotBlank
+    @Size(max = 50)
+    @Column(length = 50)
     private String customerName;
+
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
