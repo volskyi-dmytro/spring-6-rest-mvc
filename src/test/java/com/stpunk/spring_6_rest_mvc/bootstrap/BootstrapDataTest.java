@@ -2,6 +2,7 @@ package com.stpunk.spring_6_rest_mvc.bootstrap;
 
 import com.stpunk.spring_6_rest_mvc.repositories.BeerRepository;
 import com.stpunk.spring_6_rest_mvc.repositories.CustomerRepository;
+import com.stpunk.spring_6_rest_mvc.services.BeerCsvService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,14 @@ class BootstrapDataTest {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    BeerCsvService beerCsvService;
+
     BootstrapData bootstrapData;
 
     @BeforeEach
     void setUp() {
-        bootstrapData = new BootstrapData(beerRepository, customerRepository);
+        bootstrapData = new BootstrapData(beerRepository, customerRepository, beerCsvService);
     }
 
 
