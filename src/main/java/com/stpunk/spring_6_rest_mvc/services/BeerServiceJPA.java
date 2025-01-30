@@ -2,7 +2,6 @@ package com.stpunk.spring_6_rest_mvc.services;
 
 import com.stpunk.spring_6_rest_mvc.mappers.BeerMapper;
 import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
-import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
 import com.stpunk.spring_6_rest_mvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -24,7 +23,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers() {
+    public List<BeerDTO> listBeers(String beerName) {
         return beerRepository.findAll()
                 .stream()
                 .map(beerMapper::beerToBeerDTO)
