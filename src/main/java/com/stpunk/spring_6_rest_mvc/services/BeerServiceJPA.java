@@ -41,8 +41,8 @@ public class BeerServiceJPA implements BeerService {
                 .collect(Collectors.toList());
     }
 
-    List<Beer> listBeerByName(String beerName) {
-        return new ArrayList<>();
+    public List<Beer> listBeerByName(String beerName) {
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%");
     }
 
     @Override
