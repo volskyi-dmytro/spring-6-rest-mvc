@@ -1,6 +1,7 @@
 package com.stpunk.spring_6_rest_mvc.controller;
 
 import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
+import com.stpunk.spring_6_rest_mvc.model.BeerStyle;
 import com.stpunk.spring_6_rest_mvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,8 +65,9 @@ public class BeerController {
     }
 
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName){
-        return beerService.listBeers(beerName);
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
+                                   @RequestParam(required = false) BeerStyle beerStyle){
+        return beerService.listBeers(beerName, beerStyle);
     }
 
     @GetMapping(BEER_PATH_ID)

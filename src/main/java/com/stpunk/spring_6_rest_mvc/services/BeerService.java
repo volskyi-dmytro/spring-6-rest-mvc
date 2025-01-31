@@ -1,6 +1,7 @@
 package com.stpunk.spring_6_rest_mvc.services;
 
 import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
+import com.stpunk.spring_6_rest_mvc.model.BeerStyle;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 public interface BeerService {
 
-    List<BeerDTO> listBeers(String beerName);
+    List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle);
 
     Optional<BeerDTO> getBeerById(UUID id);
 
