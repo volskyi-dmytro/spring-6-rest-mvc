@@ -3,9 +3,7 @@ package com.stpunk.spring_6_rest_mvc.bootstrap;
 import com.stpunk.spring_6_rest_mvc.entities.Beer;
 import com.stpunk.spring_6_rest_mvc.entities.Customer;
 import com.stpunk.spring_6_rest_mvc.model.BeerCSVRecord;
-import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
 import com.stpunk.spring_6_rest_mvc.model.BeerStyle;
-import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
 import com.stpunk.spring_6_rest_mvc.repositories.BeerRepository;
 import com.stpunk.spring_6_rest_mvc.repositories.CustomerRepository;
 import com.stpunk.spring_6_rest_mvc.services.BeerCsvService;
@@ -21,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -74,7 +71,7 @@ public class BootstrapData implements CommandLineRunner {
                     .price(new BigDecimal("2.99"))
                     .quantityOnHand(22)
                     .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             Beer beer2 = Beer.builder()
@@ -84,7 +81,7 @@ public class BootstrapData implements CommandLineRunner {
                     .price(new BigDecimal("1.99"))
                     .quantityOnHand(92)
                     .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             Beer beer3 = Beer.builder()
@@ -94,7 +91,7 @@ public class BootstrapData implements CommandLineRunner {
                     .price(new BigDecimal("3.99"))
                     .quantityOnHand(144)
                     .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             beerRepository.save(beer1);
@@ -109,21 +106,21 @@ public class BootstrapData implements CommandLineRunner {
         if(customerRepository.count() == 0) {
 
             Customer customer1 = Customer.builder()
-                    .customerName("Adam")
+                    .name("Adam")
                     .createdDate(LocalDateTime.now())
-                    .lastModifiedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             Customer customer2 = Customer.builder()
-                    .customerName("Bobby")
+                    .name("Bobby")
                     .createdDate(LocalDateTime.now())
-                    .lastModifiedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             Customer customer3 = Customer.builder()
-                    .customerName("Casey")
+                    .name("Casey")
                     .createdDate(LocalDateTime.now())
-                    .lastModifiedDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
                     .build();
 
             customerRepository.save(customer1);

@@ -1,10 +1,8 @@
 package com.stpunk.spring_6_rest_mvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stpunk.spring_6_rest_mvc.entities.Beer;
 import com.stpunk.spring_6_rest_mvc.entities.Customer;
 import com.stpunk.spring_6_rest_mvc.mappers.CustomerMapper;
-import com.stpunk.spring_6_rest_mvc.model.BeerDTO;
 import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
 import com.stpunk.spring_6_rest_mvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,9 +67,9 @@ class CustomerControllerIT {
         Customer customer = customerRepository.findAll().get(0);
 
         Map<String, Object> customerMap = new HashMap<>();
-        customerMap.put("customerName", "New nameNew nameNew nameNew nameNew nameNew nameNew nameNew nameNew name");
+        customerMap.put("name", "New nameNew nameNew nameNew nameNew nameNew nameNew nameNew nameNew name");
 
-        MvcResult mvcResult = mockMvc.perform(patch(CUSTOMER_PATH_ID, customer.getCustomerId())
+        MvcResult mvcResult = mockMvc.perform(patch(CUSTOMER_PATH_ID, customer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMap)))
@@ -97,10 +95,10 @@ class CustomerControllerIT {
 
         Customer customer = customerRepository.findAll().get(0);
 
-        ResponseEntity responseEntity = customerController.deleteById(customer.getCustomerId());
+        ResponseEntity responseEntity = customerController.deleteById(customer.getId());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        assertThat(customerRepository.findById(customer.getCustomerId())).isEmpty();
+        assertThat(customerRepository.findById(customer.getId())).isEmpty();
 
     }
 
@@ -118,17 +116,17 @@ class CustomerControllerIT {
 
         Customer customer = customerRepository.findAll().get(0);
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-        customerDTO.setCustomerId(null);
+        customerDTO.setId(null);
         customerDTO.setVersion(null);
 
         final String customerName = "UPDATED";
-        customerDTO.setCustomerName(customerName);
+        customerDTO.setName(customerName);
 
-        ResponseEntity responseEntity = customerController.updateById(customer.getCustomerId(), customerDTO);
+        ResponseEntity responseEntity = customerController.updateById(customer.getId(), customerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        Customer updatedCustomer = customerRepository.findById(customer.getCustomerId()).get();
-        assertThat(updatedCustomer.getCustomerName()).isEqualTo(customerName);
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(customerName);
 
     }
 
@@ -138,7 +136,7 @@ class CustomerControllerIT {
     void testSaveNewCustomer() {
 
         CustomerDTO customerDTO = CustomerDTO.builder()
-                .customerName("New Customer")
+                .name("New Customer")
                 .build();
 
         ResponseEntity responseEntity = customerController.postCustomer(customerDTO);
@@ -180,7 +178,7 @@ class CustomerControllerIT {
 
         Customer customer = customerRepository.findAll().get(0);
 
-        CustomerDTO dto = customerController.getCustomerById(customer.getCustomerId());
+        CustomerDTO dto = customerController.getCustomerById(customer.getId());
 
         assertThat(dto).isNotNull();
     }

@@ -38,6 +38,7 @@ public class Beer {
     private String beerName;
 
     @NotNull
+    @JdbcTypeCode(value = SqlTypes.SMALLINT)
     private BeerStyle beerStyle;
 
     @NotBlank
@@ -53,6 +54,6 @@ public class Beer {
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private LocalDateTime updateDate;
 
 }

@@ -15,35 +15,35 @@ public class CustomerServiceImpl implements CustomerService {
     private Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
-        this.customerMap = new HashMap<>();
 
         CustomerDTO customer1 = CustomerDTO.builder()
-                .customerName("Abraham")
-                .customerId(UUID.randomUUID())
+                .name("Abraham")
+                .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         CustomerDTO customer2 = CustomerDTO.builder()
-                .customerName("Brian")
-                .customerId(UUID.randomUUID())
+                .name("Brian")
+                .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         CustomerDTO customer3 = CustomerDTO.builder()
-                .customerName("Courtney")
-                .customerId(UUID.randomUUID())
+                .name("Courtney")
+                .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
-        customerMap.put(customer1.getCustomerId(), customer1);
-        customerMap.put(customer2.getCustomerId(), customer2);
-        customerMap.put(customer3.getCustomerId(), customer3);
+        customerMap = new HashMap<>();
+        customerMap.put(customer1.getId(), customer1);
+        customerMap.put(customer2.getId(), customer2);
+        customerMap.put(customer3.getId(), customer3);
 
     }
 
@@ -64,14 +64,14 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO saveNewCustomer(CustomerDTO customer) {
 
         CustomerDTO savedCustomer = CustomerDTO.builder()
-                .customerId(UUID.randomUUID())
-                .customerName(customer.getCustomerName())
+                .id(UUID.randomUUID())
+                .name(customer.getName())
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .version(customer.getVersion())
                 .build();
 
-        customerMap.put(savedCustomer.getCustomerId(), savedCustomer);
+        customerMap.put(savedCustomer.getId(), savedCustomer);
 
         return savedCustomer;
     }
@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<CustomerDTO> updateById(UUID customerId, CustomerDTO customer) {
 
         CustomerDTO existing = customerMap.get(customerId);
-        existing.setCustomerName(customer.getCustomerName());
+        existing.setName(customer.getName());
         existing.setVersion(customer.getVersion());
 
         return Optional.of(existing);
@@ -97,8 +97,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<CustomerDTO> patchCustomerById(UUID customerId, CustomerDTO customer) {
         CustomerDTO existing = customerMap.get(customerId);
 
-        if(StringUtils.hasText(customer.getCustomerName())){
-            existing.setCustomerName(customer.getCustomerName());
+        if(StringUtils.hasText(customer.getName())){
+            existing.setName(customer.getName());
         }
 
         return Optional.of(existing);

@@ -53,13 +53,13 @@ public class CustomerController {
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity postCustomer(@Validated @RequestBody CustomerDTO customer) {
+    public ResponseEntity postCustomer(@RequestBody CustomerDTO customer) {
 
         CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Location", savedCustomer.getCustomerId().toString());
+        headers.add("Location", savedCustomer.getId().toString());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
 

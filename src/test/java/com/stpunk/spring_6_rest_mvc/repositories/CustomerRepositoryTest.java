@@ -22,12 +22,12 @@ class CustomerRepositoryTest {
     void testSaveCustomer() {
 
         Customer savedCustomer = customerRepository.save(Customer.builder()
-                .customerName("New Customer")
+                .name("New Customer")
                 .build());
         customerRepository.flush();
 
         assertThat(savedCustomer).isNotNull();
-        assertThat(savedCustomer.getCustomerId()).isNotNull();
+        assertThat(savedCustomer.getId()).isNotNull();
 
     }
 
@@ -37,7 +37,7 @@ class CustomerRepositoryTest {
         assertThrows(ConstraintViolationException.class, () -> {
 
             Customer savedCustomer = customerRepository.save(Customer.builder()
-                    .customerName("New CustomerNew CustomerNew CustomerNew CustomerNew CustomerNew Customer")
+                    .name("New CustomerNew CustomerNew CustomerNew CustomerNew CustomerNew Customer")
                     .build());
             customerRepository.flush();
 
