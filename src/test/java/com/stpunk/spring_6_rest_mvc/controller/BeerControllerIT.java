@@ -1,6 +1,7 @@
 package com.stpunk.spring_6_rest_mvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stpunk.spring_6_rest_mvc.config.JwtTestConfig;
 import com.stpunk.spring_6_rest_mvc.config.SpringSecConfig;
 import com.stpunk.spring_6_rest_mvc.entities.Beer;
 import com.stpunk.spring_6_rest_mvc.mappers.BeerMapper;
@@ -60,12 +61,6 @@ class BeerControllerIT {
     @Autowired
     WebApplicationContext webApplicationContext;
 
-    @Value("${SS_USERNAME}")
-    String username;
-
-    @Value("${SS_PASSWORD}")
-    String password;
-
     MockMvc mockMvc;
 
     @BeforeEach
@@ -79,7 +74,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryTruePage2() throws Exception{
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventory", "true")
@@ -95,7 +90,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryFalse() throws Exception{
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventory", "false")
@@ -110,7 +105,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryTrue() throws Exception{
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                 .queryParam("beerName", "IPA")
                 .queryParam("beerStyle", BeerStyle.IPA.name())
                 .queryParam("showInventory", "true")
@@ -135,7 +130,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndName() throws Exception{
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                 .queryParam("beerName", "IPA")
                 .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("pageSize", "800"))
@@ -147,7 +142,7 @@ class BeerControllerIT {
     @Test
     void testListBeersByStyle() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                         .queryParam("beerStyle", BeerStyle.IPA.name()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()", is(25)));
@@ -157,7 +152,7 @@ class BeerControllerIT {
     @Test
     void testListBeersByName() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                 .queryParam("beerName", "IPA")
                         .queryParam("pageSize", "800"))
                 .andExpect(status().isOk())
@@ -174,7 +169,7 @@ class BeerControllerIT {
         beerMap.put("beerName", "New nameNew nameNew nameNew nameNew nameNew nameNew nameNew nameNew name");
 
         MvcResult mvcResult = mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
-                        .with(httpBasic(username, password))
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))

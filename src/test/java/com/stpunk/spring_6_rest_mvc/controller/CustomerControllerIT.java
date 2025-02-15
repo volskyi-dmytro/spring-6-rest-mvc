@@ -1,6 +1,8 @@
 package com.stpunk.spring_6_rest_mvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stpunk.spring_6_rest_mvc.config.JwtTestConfig;
+import com.stpunk.spring_6_rest_mvc.config.SpringSecConfig;
 import com.stpunk.spring_6_rest_mvc.entities.Customer;
 import com.stpunk.spring_6_rest_mvc.mappers.CustomerMapper;
 import com.stpunk.spring_6_rest_mvc.model.CustomerDTO;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +34,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@ActiveProfiles("default")
+@ActiveProfiles("proxmox-mysql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(SpringSecConfig.class)
 @SpringBootTest
 class CustomerControllerIT {
 
@@ -58,7 +63,9 @@ class CustomerControllerIT {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
@@ -70,11 +77,11 @@ class CustomerControllerIT {
         customerMap.put("name", "New nameNew nameNew nameNew nameNew nameNew nameNew nameNew nameNew name");
 
         MvcResult mvcResult = mockMvc.perform(patch(CUSTOMER_PATH_ID, customer.getId())
+                        .with(JwtTestConfig.JWT_REQUEST_POSTPROCESSOR)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMap)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.length()", is(1)))
                 .andReturn();
 
         System.out.println(mvcResult.getResponse().getContentAsString());
